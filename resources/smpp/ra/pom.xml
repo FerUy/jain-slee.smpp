@@ -23,19 +23,6 @@
 			<artifactId>smpp-server-ra-ratype</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!--
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>smpp-server-ra-library</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		-->
-		<dependency>
-			<groupId>org.restcomm.smpp</groupId>
-			<artifactId>ch-smpp</artifactId>
-			<version>${ch.smpp.version}</version>
-			<scope>provided</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.restcomm.smpp</groupId>
 			<artifactId>smpp-extensions</artifactId>
@@ -72,13 +59,6 @@
             <version>1.5.2</version>
             <scope>test</scope>
         </dependency>
-        
-		<dependency>
-            <groupId>org.jboss.jbossas</groupId>
-            <artifactId>jboss-as-system-jmx</artifactId>
-            <version>${jboss.version}</version>
-            <scope>compile</scope>
-        </dependency>			
 	</dependencies>
 
 	<profiles>

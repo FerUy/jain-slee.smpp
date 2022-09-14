@@ -142,6 +142,9 @@ public class SmppServerResourceAdaptor implements ResourceAdaptor {
 
     @Override
     public void raActive() {
+        if(tracer.isFineEnabled()) {
+            tracer.fine("Core : SLEE : SMPP Server RA :: raActive.");
+        }
         try {
             MBeanServer mBeanServer = null;
             ObjectName objectName = new ObjectName("org.restcomm.smpp:name=SmppManagement");

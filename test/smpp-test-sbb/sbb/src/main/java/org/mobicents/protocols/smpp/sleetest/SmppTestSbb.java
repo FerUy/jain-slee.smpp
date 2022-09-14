@@ -121,7 +121,7 @@ public abstract class SmppTestSbb implements Sbb {
         SmppTransaction smppServerTransaction = (SmppTransaction) aci.getActivity();
         Esme esme = smppServerTransaction.getEsme();
 
-        this.logger.info("Tx SubmitSm " + event + ", esme=" + esme.getName());
+//        this.logger.info("Tx SubmitSm " + event + ", esme=" + esme.getName());
 
         SubmitSmResp response = event.createResponse();
         response.setMessageId("00000001");
