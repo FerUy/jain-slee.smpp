@@ -47,13 +47,13 @@
 							<goal>run</goal>
 						</goals>
 						<configuration>
-							<tasks>
+							<target>
 								<unzip overwrite="true" src="target/${project.build.finalName}.jar" dest="target/jboss-pack" />
 								<replace file="target/jboss-pack/META-INF/jboss-dependency.xml"
 									value=""
 									token="&lt;item whenRequired=&quot;Real&quot; dependentState=&quot;Installed&quot; attribute=&quot;inet-address&quot; required=&quot;true&quot;&gt;jboss.as:interface=public&lt;/item&gt;" />
 								<zip basedir="target/jboss-pack" destfile="target/smpp-server-ra-du-jboss-${project.version}.jar" />
-							</tasks>
+							</target>
 						</configuration>
 					</execution>
 				</executions>
@@ -122,9 +122,9 @@
 									<goal>run</goal>
 								</goals>
 								<configuration>
-									<tasks>
+									<target>
 										<copy overwrite="true" file="target/smpp-server-ra-du-jboss-${project.version}.jar" todir="${jboss.home}/server/${node}/deploy" />
-									</tasks>
+									</target>
 								</configuration>
 							</execution>
 							<execution>
@@ -134,9 +134,9 @@
 									<goal>run</goal>
 								</goals>
 								<configuration>
-									<tasks>
+									<target>
 										<delete file="${jboss.home}/server/${node}/deploy/smpp-server-ra-du-jboss-${project.version}.jar" />
-									</tasks>
+									</target>
 								</configuration>
 							</execution>
 						</executions>
@@ -158,9 +158,9 @@
 									<goal>run</goal>
 								</goals>
 								<configuration>
-									<tasks>
+									<target>
 										<copy overwrite="true" file="target/${project.build.finalName}.jar" todir="${jboss.home}/standalone/deployments" />
-									</tasks>
+									</target>
 								</configuration>
 							</execution>
 							<execution>
@@ -170,9 +170,9 @@
 									<goal>run</goal>
 								</goals>
 								<configuration>
-									<tasks>
+									<target>
 										<delete file="${jboss.home}/standalone/deployments/${project.build.finalName}.jar" />
-									</tasks>
+									</target>
 								</configuration>
 							</execution>
 						</executions>
