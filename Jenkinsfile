@@ -68,7 +68,7 @@ pipeline {
                     sh "scp -r ${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}/ root@127.0.0.1:/var/www/html/NAIKERI/jain_slee_smpp/${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}/"
                 }*/
                 sh "mkdir -p /var/www/html/NAIKERI/jain_slee_smpp/${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}/"
-                sh "cp ${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}/ /var/www/html/NAIKERI/jain_slee_smpp/${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}/"
+                sh "cp -r ${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}/ /var/www/html/NAIKERI/jain_slee_smpp/${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}/"
                 sh "rm -rf ${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}"
                 sh "rm -f ${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}.zip"
             }
