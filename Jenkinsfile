@@ -13,7 +13,7 @@ pipeline {
     parameters {
         string(name: 'JAIN_SLEE_SMPP_MAJOR_VERSION', defaultValue: '7.1.0', description: 'The major version for JAIN SLEE SMPP Community edition')
         string(name: 'CH_SMPP_VERSION', defaultValue: '6.1.0-5', description: 'The major version for cloudhopper smpp')
-        string(name: 'SMPP_EXTENION_VERSION', defaultValue: '7.1.0-191', description: 'The major version for Extended SMPP Extension')
+        string(name: 'SMPP_EXTENSIONS_VERSION', defaultValue: '7.1.0-191', description: 'The major version for Extended SMPP Extension')
     }
 
     stages {
@@ -30,7 +30,7 @@ pipeline {
                     currentBuild.displayName = "#${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}"
                     currentBuild.description = "Community JAIN SLEE SMPP"
                 }
-                sh "mvn -Dch.smpp.version=${params.CH_SMPP_VERSION} -Dsmpp-extensions.version=${params.SMPP_EXTENION_VERSION} clean install -DskipTests"
+                sh "mvn -Dch.smpp.version=${params.CH_SMPP_VERSION} -Dsmpp-extensions.version=${params.SMPP_EXTENSIONS_VERSION} clean install -DskipTests"
             }
         }
 
@@ -39,7 +39,7 @@ pipeline {
                 sh 'find . -type d -name target -exec rm -rf {} +'
 
                 sh """mvn -Dch.smpp.version=${params.CH_SMPP_VERSION} \
-                -Dsmpp-extensions.version=${params.SMPP_EXTENION_VERSION} clean install \
+                -Dsmpp-extensions.version=${params.SMPP_EXTENSIONS_VERSION} clean install \
                 -DskipTests -Pall -Prelease-wildfly -Drelease.dir=../../../${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}"""
                 sh 'rm -rf generated-docs'
                 // compress the release wildfly
