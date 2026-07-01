@@ -2,12 +2,12 @@ pipeline {
     agent any
 
     tools {
-        jdk 'JDK 11'
-        maven 'Maven_3.8.5'
+        jdk 'jdk-11'
+        maven 'maven-3.9.12'
     }
 
     options {
-        buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '3'))
+        buildDiscarder(logRotator(daysToKeepStr: '10', numToKeepStr: '10'))
     }
 
     parameters {
@@ -36,7 +36,7 @@ pipeline {
 
         stage ('Release') {
             steps {
-                sh 'find . -type d -name \\"target\\" -exec r -r {} +'
+                sh 'find . -type d -name target -exec rm -rf {} +'
 
                 sh """mvn -Dch.smpp.version=${params.CH_SMPP_VERSION} \
                 -Dsmpp-extensions.version=${params.SMPP_EXTENION_VERSION} clean install \
@@ -44,7 +44,7 @@ pipeline {
                 sh 'rm -rf generated-docs'
                 // compress the release wildfly
                 sh "zip -r ${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}.zip ${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}"
-                // copy the docs folder to the root ang zip it
+                // copy the docs folder to the root and zip it
                 sh 'mv resources/smpp/smpp-server-ra-docs/smpp-server-ra-docs-sources-asciidoc/target/generated-docs/ .'
                 sh "zip -r smpp-ra-generated-docs.zip generated-docs"
                 // remove the folder and re-create it again
@@ -62,22 +62,17 @@ pipeline {
         }
 
         stage('Push to Repo') {
-            when { branch 'master' }
+            when { anyOf { branch 'master'; branch 'release' } }
             steps {
-                /*sshagent(credentials: ['4e708f2a-8b37-414f-a6d4-787690b87738']) {
-                    sh "scp -r ${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}/ root@127.0.0.1:/var/www/html/NAIKERI/jain_slee_smpp/${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}/"
-                }*/
                 sh "mkdir -p /var/www/html/NAIKERI/jain_slee_smpp/${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}/"
                 sh "cp -r ${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}/ /var/www/html/NAIKERI/jain_slee_smpp/${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}/"
                 sh "rm -rf ${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}"
                 sh "rm -f ${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}.zip"
             }
         }
-        stage ('Push to jFrog') {
-            when{anyOf{branch 'master'; branch 'release'}}
-		    steps{
-                sh "mvn -Dch.smpp.version=${params.CH_SMPP_VERSION} -Dsmpp-extensions.version=${params.SMPP_EXTENION_VERSION} deploy"
-		    }
-        }
+    }
+    post {
+        success { echo "JAIN-SLEE SMPP successfully built" }
+        failure { echo "Building JAIN-SLEE SMPP failed" }
     }
 }
