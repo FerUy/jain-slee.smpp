@@ -64,8 +64,8 @@ pipeline {
         stage('Push to Repo') {
             when { anyOf { branch 'master'; branch 'release' } }
             steps {
-                sh "mkdir -p /var/www/html/NAIKERI/jain_slee_smpp/${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}/"
-                sh "cp -r ${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}/ /var/www/html/NAIKERI/jain_slee_smpp/${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}/"
+                sh "mkdir -p /var/www/html/NAIKERI/jain_slee_smpp/"
+                sh "cp -r ${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER} /var/www/html/NAIKERI/jain_slee_smpp/"
                 sh "rm -rf ${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}"
                 sh "rm -f ${params.JAIN_SLEE_SMPP_MAJOR_VERSION}-${BUILD_NUMBER}.zip"
             }
